@@ -1,0 +1,97 @@
+.mobile-only { display: none; }
+
+@media (max-width: 1120px) {
+  :root { --sidebar-width: 320px; }
+  .brand-subtitle { display: none; }
+  .panel-header p { max-width: 560px; }
+}
+
+@media (max-width: 900px) {
+  .mobile-only { display: grid; }
+  .topbar { padding: 0 14px; }
+  .brand-mark { width: 38px; height: 38px; flex-basis: 38px; }
+  .brand-mark svg { width: 27px; height: 27px; }
+  .panel { padding-top: 17px; }
+  .mode-tabs { margin-top: 13px; overflow-x: auto; max-width: calc(100vw - 28px); scrollbar-width: none; }
+  .mode-tabs::-webkit-scrollbar { display: none; }
+  .topbar-actions .button-ghost { display: none; }
+}
+
+@media (max-width: 680px) {
+  .result-view-bar { align-items: stretch; flex-direction: column; gap: 7px; }
+  .view-switch { width: 100%; }
+  .view-switch-button { flex: 1; justify-content: center; }
+  .view-hint { display: none; }
+  .space-tree-heading { flex-direction: column; gap: 10px; padding: 14px 15px 12px; }
+  .space-tree-actions { width: 100%; }
+  .space-tree-actions .button { flex: 1; }
+  .space-tree-canvas { padding: 18px 12px 20px; }
+  .space-tree-root { gap: 10px; padding: 12px; }
+  .space-tree-root::after { left: 32px; }
+  .root-orb { width: 40px; height: 40px; flex-basis: 40px; border-radius: 12px; }
+  .root-orb svg { width: 20px; height: 20px; }
+  .root-stats { display: none; }
+  .space-tree-branches { padding-left: 58px; }
+  .space-tree-branches::before { left: 33px; }
+  .space-domain::before { left: -25px; width: 25px; }
+  .space-leaves { padding-left: 28px; }
+  .space-leaves::before { left: 14px; }
+  .space-leaf { grid-template-columns: 20px minmax(0, 1fr) auto; gap: 7px; padding: 8px 7px; }
+  .space-leaf::before { left: -14px; width: 11px; }
+  .space-leaf-snippet { -webkit-line-clamp: 2; }
+  .leaf-authority { display: none; }
+  .brand-title { font-size: 13px; }
+  .status-pill { padding: 0 9px; }
+  .status-pill #connectionBadgeText { display: none; }
+  .panel-header { flex-direction: column; gap: 9px; margin-bottom: 14px; }
+  .panel-header h1 { font-size: 23px; }
+  .panel-actions { width: 100%; padding-top: 0; }
+  .panel-actions .button { flex: 1; }
+  .mode-tabs { align-self: stretch; margin-left: 14px; margin-right: 14px; max-width: none; }
+  .mode-tab { flex: 1; justify-content: center; padding: 0 8px; }
+  .mode-icon { display: none; }
+  .panel { padding: 15px 14px 20px; }
+  .message-body, .message.user .message-body { max-width: calc(100% - 40px); }
+  .composer-hint { display: none; }
+  .composer-bar { justify-content: flex-end; }
+  .field-grid.two { grid-template-columns: 1fr; }
+  .source-grid { grid-template-columns: 1fr; }
+  .url-input-row { flex-direction: column; align-items: stretch; }
+  .url-input-row .button { width: 100%; }
+  .fetch-title-row { flex-direction: column; }
+  .fetch-title-row .button { width: 100%; }
+  .result-card { padding-left: 15px; }
+  .answer-card > .markdown-body, .fetch-markdown { padding: 15px; }
+  .query-bar { flex-wrap: wrap; }
+  .query-bar .button { flex: 1; }
+  .dialog-tabs { flex-wrap: wrap; }
+  .dialog-copy { margin-left: 0; }
+  .raw-dialog { width: calc(100vw - 20px); }
+  .toast-stack { right: 10px; bottom: 10px; left: 10px; }
+  .toast { min-width: 0; max-width: none; width: 100%; }
+}
+
+@media (max-width: 430px) {
+  .topbar { height: 60px; }
+  :root { --topbar-height: 60px; }
+  .brand-mark { width: 34px; height: 34px; flex-basis: 34px; }
+  .brand-mark svg { width: 24px; height: 24px; }
+  .brand-title { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+  .mode-tab { font-size: 10.5px; }
+  .panel-header h1 { font-size: 21px; }
+  .panel-header p { font-size: 11px; }
+  .space-tree-heading h2 { font-size: 15px; }
+  .space-tree-branches { padding-left: 46px; }
+  .space-tree-branches::before { left: 28px; }
+  .space-domain::before { left: -18px; width: 18px; }
+  .space-domain > summary { gap: 8px; padding: 9px 10px; }
+  .domain-score { display: none; }
+  .space-leaves { padding: 8px 8px 9px 22px; }
+  .space-leaves::before { left: 11px; }
+  .space-leaf { grid-template-columns: 18px minmax(0, 1fr); }
+  .space-leaf::before { left: -11px; width: 8px; }
+  .space-leaf-rank { width: 18px; height: 18px; border-radius: 6px; }
+  .space-leaf-meta { grid-column: 2; justify-self: start; }
+  .space-leaf-meta svg { display: none; }
+  .root-copy strong { white-space: normal; }
+}

@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#0c1220">
+    <meta name="description" content="DeepSeek 聊天、联网搜索、网页抓取与搜索增强问答工作台">
+    <title>DeepSeek Search Console</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/panels.css">
+    <link rel="stylesheet" href="/styles/responsive.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M11 12.5c3.6-3.2 7.9-4.8 12.9-4.8 1.2 0 2.4.1 3.6.4l-5.8 5.8h-7.2c-1.2 0-2.3.4-3.2 1.1l-2.4-1.8c.6-.3 1.3-.5 2.1-.7Z"/><path d="M29.4 10.1 23.5 16h-.1l-8.1 8.1c-1.8 1.8-1.8 4.7 0 6.5 1.8 1.8 4.7 1.8 6.5 0l1.7-1.7-2.7-2.7-1.7 1.7a1.1 1.1 0 0 1-1.5 0 1.1 1.1 0 0 1 0-1.5l8.1-8.1v-.1l5.8-5.8c.2 1.1.2 2.2 0 3.3l2.9 2.2c.8-4.5-.4-8.1-2.3-10.1-1.1-1.1-2.3-1.7-3.1-2.2Z"/><path d="M20 23.2 17.3 26l2.7 2.7 2.7-2.7-2.7-2.8Z"/></svg>
+          </div>
+          <div class="brand-copy">
+            <div class="brand-title">DeepSeek Search Console</div>
+            <div class="brand-subtitle">对话 · 联网搜索 · 抓取 · 搜索增强问答</div>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="status-pill" id="connectionBadge" type="button" title="点击测试连接">
+            <span class="status-dot"></span><span id="connectionBadgeText">未验证连接</span>
+          </button>
+          <button class="icon-button" id="btnTheme" type="button" aria-label="切换主题" title="切换主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.8 6.8 0 0 0 21 12.8Z"/></svg>
+          </button>
+          <button class="button button-ghost" id="btnClearAll" type="button">清空</button>
+          <button class="icon-button" id="btnSettings" type="button" aria-label="打开设置" aria-controls="sidebar" aria-expanded="false" title="打开设置">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.09A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.09A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.09A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.14.35.35.68.6 1 .3.28.68.42 1.1.4H21v4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+        <aside class="sidebar" id="sidebar" aria-label="连接与参数设置" aria-hidden="true" inert>
+          <div class="sidebar-heading">
+            <div>
+              <div class="eyebrow">CONFIGURATION</div>
+              <h2>连接与参数</h2>
+            </div>
+            <button class="icon-button" id="btnCloseSidebar" type="button" aria-label="关闭设置" title="关闭设置">×</button>
+          </div>
+          <div class="sidebar-scroll">
+            <section class="setting-section" data-open="true">
+              <button class="section-toggle" type="button">
+                <span>API 连接</span><span class="chevron"></span>
+              </button>
+              <div class="section-content">
+                <label class="field">
+                  <span class="field-label">聊天 Base URL</span>
+                  <input id="cfgChatBaseUrl" type="url" spellcheck="false" placeholder="https://api.deepseek.com/v1">
+                  <span class="field-hint">需包含版本路径，例如 /v1</span>
+                </label>
+                <label class="field">
+                  <span class="field-label">聊天 API Key</span>
+                  <span class="input-action">
+                    <input id="cfgChatKey" type="password" spellcheck="false" autocomplete="off" placeholder="sk-...">
+                    <button class="input-button" type="button" data-toggle-password="cfgChatKey">显示</button>
+                  </span>
+                </label>
+                <div class="inline-actions">
+                  <button class="button button-secondary" id="btnTestConnection" type="button">测试连接</button>
+                  <span class="inline-status" id="connectionDetail">尚未测试</span>
+                </div>
+                <label class="field model-field">
+                  <span class="field-label">模型 <span class="label-muted" id="modelLoadState">等待连接测试</span></span>
+                  <select id="cfgModel" disabled aria-describedby="modelPickerHint">
+                    <option value="">测试连接后选择模型</option>
+                  </select>
+                  <span class="field-hint" id="modelPickerHint">连接成功后，将从当前地址的 /models 返回结果中加载可选模型。</span>
+                </label>
+
+                <div class="section-divider"></div>
+                <label class="switch-row">
+                  <input id="cfgReuseKey" type="checkbox">
+                  <span class="switch-track"></span>
+                  <span>搜索/抓取复用聊天 Key</span>
+                </label>
+                <label class="field">
+                  <span class="field-label">搜索/抓取 Base URL</span>
+                  <input id="cfgSearchBaseUrl" type="url" spellcheck="false" placeholder="https://api.deepseek.com/v1">
+                </label>
+                <label class="field">
+                  <span class="field-label">搜索/抓取 API Key</span>
+                  <span class="input-action">
+                    <input id="cfgSearchKey" type="password" spellcheck="false" autocomplete="off" placeholder="独立搜索接口的 Key">
+                    <button class="input-button" type="button" data-toggle-password="cfgSearchKey">显示</button>
+                  </span>
+                </label>
+                <button class="button button-quiet full-width" id="btnOfficialSearch" type="button">填入 DeepSeek 官方搜索端点</button>
+                <p class="note note-warn">独立 Search / Fetch 是官方按次计费接口。若中转站未透传 <code>/v1/tools/*</code>，会返回 404。</p>
+              </div>
+            </section>
+
+            <section class="setting-section" data-open="true">
+              <button class="section-toggle" type="button">
+                <span>生成参数</span><span class="chevron"></span>
+              </button>
+              <div class="section-content">
+                <label class="field">
+                  <span class="field-label">系统提示词</span>
+                  <textarea id="cfgSystemPrompt" rows="3" spellcheck="false"></textarea>
+                </label>
+                <div class="field-grid two">
+                  <label class="field">
+                    <span class="field-label">Temperature</span>
+                    <span class="range-wrap">
+                      <input id="cfgTemperatureRange" type="range" min="0" max="2" step="0.05">
+                      <input id="cfgTemperature" type="number" min="0" max="2" step="0.05">
+                    </span>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Top P</span>
+                    <span class="range-wrap">
+                      <input id="cfgTopPRange" type="range" min="0" max="1" step="0.01">
+                      <input id="cfgTopP" type="number" min="0" max="1" step="0.01">
+                    </span>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Max tokens</span>
+                    <input id="cfgMaxTokens" type="number" min="1" step="1">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">n</span>
+                    <input id="cfgN" type="number" min="1" max="10" step="1">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Presence penalty</span>
+                    <input id="cfgPresencePenalty" type="number" min="-2" max="2" step="0.1">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Frequency penalty</span>
+                    <input id="cfgFrequencyPenalty" type="number" min="-2" max="2" step="0.1">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Seed</span>
+                    <input id="cfgSeed" type="number" step="1" placeholder="留空不发送">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">推理强度</span>
+                    <select id="cfgReasoningEffort">
+                      <option value="low">low</option>
+                      <option value="high">high</option>
+                      <option value="max">max</option>
+                    </select>
+                  </label>
+                </div>
+                <label class="field">
+                  <span class="field-label">停止词 <span class="label-muted">每行一个</span></span>
+                  <textarea id="cfgStop" rows="2" spellcheck="false" placeholder="END&#10;###"></textarea>
+                </label>
+                <div class="switch-list">
+                  <label class="switch-row">
+                    <input id="cfgStream" type="checkbox">
+                    <span class="switch-track"></span><span>流式输出</span>
+                  </label>
+                  <label class="switch-row">
+                    <input id="cfgThinking" type="checkbox">
+                    <span class="switch-track"></span><span>思考模式</span>
+                  </label>
+                </div>
+                <p class="note">思考模式下 <code>temperature</code>、<code>presence_penalty</code>、<code>frequency_penalty</code> 不生效；V4.1 Flash 的 <code>top_p</code> 有效范围为 0.95–1。</p>
+                <label class="field">
+                  <span class="field-label">响应格式</span>
+                  <select id="cfgResponseFormat">
+                    <option value="text">text</option>
+                    <option value="json_object">json_object</option>
+                    <option value="json_schema">json_schema</option>
+                  </select>
+                </label>
+                <label class="field" id="schemaField" hidden>
+                  <span class="field-label">JSON Schema</span>
+                  <textarea id="cfgJsonSchema" rows="5" spellcheck="false" placeholder='{"name":"result","schema":{"type":"object"}}'></textarea>
+                </label>
+                <label class="field">
+                  <span class="field-label">高级覆盖 JSON <span class="label-muted">覆盖/追加请求字段</span></span>
+                  <textarea id="cfgAdvancedJson" rows="5" spellcheck="false" placeholder='{"logit_bias":{"123":-100},"tools":[]}'></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="setting-section" data-open="true">
+              <button class="section-toggle" type="button">
+                <span>搜索参数</span><span class="chevron"></span>
+              </button>
+              <div class="section-content">
+                <div class="field-grid two">
+                  <label class="field">
+                    <span class="field-label">结果数量 count</span>
+                    <input id="cfgSearchCount" type="number" min="1" max="50" step="1">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">定位 IP localization</span>
+                    <input id="cfgLocalization" type="text" spellcheck="false" placeholder="可选，例如 1.2.3.4">
+                  </label>
+                </div>
+                <label class="field">
+                  <span class="field-label">原始问题 ori_question</span>
+                  <input id="cfgOriQuestion" type="text" spellcheck="false" placeholder="可选，帮助模型理解搜索意图">
+                </label>
+                <label class="switch-row">
+                  <input id="cfgNeedContent" type="checkbox">
+                  <span class="switch-track"></span><span>返回网页正文 need_content</span>
+                </label>
+                <p class="note">计费按成功请求计算，与 <code>count</code> 无关。官方限制 Search / Fetch 各 5 QPS。</p>
+              </div>
+            </section>
+          </div>
+          <div class="sidebar-footer">
+            <span>Key 仅保存在本机浏览器</span>
+            <button class="link-button" id="btnResetConfig" type="button">恢复默认</button>
+          </div>
+        </aside>
+
+        <main class="main">
+          <nav class="mode-tabs" aria-label="工作模式">
+            <button class="mode-tab active" type="button" data-mode="chat">
+              <span class="mode-icon">◌</span><span>对话</span>
+            </button>
+            <button class="mode-tab" type="button" data-mode="search">
+              <span class="mode-icon">⌕</span><span>联网搜索</span>
+            </button>
+            <button class="mode-tab" type="button" data-mode="agent">
+              <span class="mode-icon">✦</span><span>搜索 + AI</span>
+            </button>
+            <button class="mode-tab" type="button" data-mode="fetch">
+              <span class="mode-icon">↗</span><span>网页抓取</span>
+            </button>
+          </nav>
+
+          <section class="panel active" id="panel-chat" data-panel="chat">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">CHAT COMPLETIONS</div>
+                <h1>与大模型对话</h1>
+                <p>使用 OpenAI 兼容接口，支持流式输出、思考过程与多轮上下文。</p>
+              </div>
+              <div class="panel-actions">
+                <button class="button button-quiet" id="btnChatRaw" type="button">原始请求</button>
+                <button class="button button-quiet" id="btnClearChat" type="button">清空对话</button>
+              </div>
+            </div>
+            <div class="chat-log" id="chatLog" aria-live="polite"></div>
+            <div class="composer-wrap">
+              <div class="composer">
+                <textarea id="chatInput" rows="1" placeholder="输入问题…  Enter 发送，Shift + Enter 换行"></textarea>
+                <div class="composer-bar">
+                  <span class="composer-hint" id="chatHint">系统提示词会随每次请求发送</span>
+                  <div class="composer-buttons">
+                    <button class="button button-ghost" id="btnStopChat" type="button" hidden>停止</button>
+                    <button class="button button-primary" id="btnSendChat" type="button">
+                      <span>发送</span>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7M12 5v14"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-search" data-panel="search" hidden>
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">DEEPSEEK SEARCH API</div>
+                <h1>独立联网搜索</h1>
+                <p>直接调用 Search API，返回标题、摘要、正文、权威度与时效信息，不经过大模型改写。</p>
+              </div>
+              <div class="panel-actions">
+                <button class="button button-quiet" id="btnSearchRaw" type="button">原始响应</button>
+              </div>
+            </div>
+            <form class="query-card" id="searchForm">
+              <textarea id="searchQuery" rows="2" placeholder="输入搜索词，支持 site:、-site:、OR、引号短语、after:、before: 等操作符"></textarea>
+              <div class="query-bar">
+                <span class="query-meta" id="searchConfigHint">将返回 10 条结果</span>
+                <button class="button button-primary" id="btnSearch" type="submit">开始搜索</button>
+              </div>
+            </form>
+            <div class="result-meta" id="searchMeta" hidden></div>
+            <div class="result-view-bar" id="searchViewBar" hidden>
+              <div class="view-switch" role="group" aria-label="搜索结果展示方式">
+                <button class="view-switch-button active" type="button" data-search-view="tree" aria-pressed="true">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v5M6 20v-4h12v4M6 16v-3h12v3M12 9v4"/><circle cx="12" cy="4" r="1.5"/><circle cx="6" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+                  空间树图
+                </button>
+                <button class="view-switch-button" type="button" data-search-view="cards" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="5" rx="1.5"/><rect x="4" y="14" width="16" height="5" rx="1.5"/></svg>
+                  详细卡片
+                </button>
+              </div>
+              <span class="view-hint" id="searchViewHint">按站点聚合来源关系</span>
+            </div>
+            <section class="space-tree-view" id="searchTreeView" aria-label="搜索结果空间树图" hidden>
+              <div class="space-tree-heading">
+                <div>
+                  <div class="eyebrow">SOURCE SPATIAL MAP</div>
+                  <h2>来源空间树图</h2>
+                  <p id="searchTreeDescription">从检索主题展开站点与页面，点击节点可访问原始网页。</p>
+                </div>
+                <div class="space-tree-actions">
+                  <button class="button button-quiet" id="btnExpandDomains" type="button">全部展开</button>
+                  <button class="button button-quiet" id="btnCollapseDomains" type="button">全部收起</button>
+                </div>
+              </div>
+              <div class="space-tree-canvas">
+                <div class="space-tree-root">
+                  <div class="root-orb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4.5 4.5"/></svg>
+                  </div>
+                  <div class="root-copy">
+                    <span>当前检索主题</span>
+                    <strong id="searchTreeQuery"></strong>
+                  </div>
+                  <div class="root-stats" id="searchTreeStats"></div>
+                </div>
+                <div class="space-tree-branches" id="searchTreeBranches"></div>
+              </div>
+            </section>
+            <div class="empty-state" id="searchEmpty">
+              <div class="empty-mark">⌕</div>
+              <h3>从实时网页中检索</h3>
+              <p>结果直接来自 DeepSeek 自建搜索索引。适合替代传统网页搜索，也适合作为 RAG 数据源。</p>
+              <div class="example-chips">
+                <button type="button" data-example="DeepSeek V4.1 Flash 更新">DeepSeek V4.1 Flash 更新</button>
+                <button type="button" data-example="site:github.com deepseek agent">site:github.com deepseek agent</button>
+                <button type="button" data-example="今天 AI 行业重要新闻">今天 AI 行业重要新闻</button>
+              </div>
+            </div>
+            <div class="result-list" id="searchResults"></div>
+          </section>
+
+          <section class="panel" id="panel-agent" data-panel="agent" hidden>
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">SEARCH + GENERATE</div>
+                <h1>搜索增强问答</h1>
+                <p>先用 Search API 检索，再把来源交给大模型总结，并保留可点击的出处。</p>
+              </div>
+              <div class="panel-actions">
+                <button class="button button-quiet" id="btnAgentRaw" type="button">原始请求</button>
+              </div>
+            </div>
+            <form class="query-card" id="agentForm">
+              <textarea id="agentQuery" rows="2" placeholder="例如：DeepSeek V4.1 Flash 最近更新了哪些能力？"></textarea>
+              <div class="query-bar">
+                <span class="query-meta" id="agentConfigHint">检索后交给当前模型回答</span>
+                <button class="button button-primary" id="btnAgent" type="submit">搜索并回答</button>
+              </div>
+            </form>
+            <div class="agent-output" id="agentOutput" hidden>
+              <div class="answer-card">
+                <div class="answer-header">
+                  <span class="answer-label">AI 回答</span>
+                  <span class="answer-meta" id="agentMeta"></span>
+                </div>
+                <div class="markdown-body" id="agentAnswer"></div>
+                <details class="reasoning-box" id="agentReasoningBox" hidden>
+                  <summary>查看思考过程</summary>
+                  <pre id="agentReasoning"></pre>
+                </details>
+              </div>
+              <div class="sources-section">
+                <div class="sources-title">参考来源 <span id="sourceCount"></span></div>
+                <div class="source-grid" id="agentSources"></div>
+              </div>
+            </div>
+            <div class="empty-state" id="agentEmpty">
+              <div class="empty-mark">✦</div>
+              <h3>把搜索结果变成带出处的回答</h3>
+              <p>搜索和生成是两次独立计费：Search API 按次计费，大模型按 token 计费。</p>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-fetch" data-panel="fetch" hidden>
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">DEEPSEEK FETCH API</div>
+                <h1>网页抓取</h1>
+                <p>抓取单个网页并转换为 Markdown，适合阅读全文或继续交给模型处理。</p>
+              </div>
+              <div class="panel-actions">
+                <button class="button button-quiet" id="btnFetchRaw" type="button">原始响应</button>
+              </div>
+            </div>
+            <form class="query-card" id="fetchForm">
+              <div class="url-input-row">
+                <input id="fetchUrl" type="url" spellcheck="false" placeholder="https://example.com/article">
+                <button class="button button-primary" id="btnFetch" type="submit">抓取网页</button>
+              </div>
+              <div class="query-bar">
+                <span class="query-meta">返回标题与 Markdown 正文；受目标站点访问策略限制</span>
+              </div>
+            </form>
+            <div class="fetch-result" id="fetchResult" hidden>
+              <div class="fetch-title-row">
+                <div>
+                  <div class="eyebrow">PAGE CONTENT</div>
+                  <h2 id="fetchTitle">未命名页面</h2>
+                </div>
+                <a class="button button-quiet" id="fetchOpenLink" href="#" target="_blank" rel="noopener noreferrer">打开原网页 ↗</a>
+              </div>
+              <div class="markdown-body fetch-markdown" id="fetchContent"></div>
+            </div>
+            <div class="empty-state" id="fetchEmpty">
+              <div class="empty-mark">↗</div>
+              <h3>把网页转换成干净的 Markdown</h3>
+              <p>抓取结果可用于阅读、复制，或作为后续对话的上下文。</p>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="raw-dialog" id="rawDialog">
+      <div class="dialog-shell">
+        <div class="dialog-header">
+          <div>
+            <div class="eyebrow">INSPECTOR</div>
+            <h2 id="rawTitle">原始请求 / 响应</h2>
+          </div>
+          <button class="icon-button" id="btnCloseRaw" type="button" aria-label="关闭">×</button>
+        </div>
+        <div class="dialog-tabs">
+          <button class="dialog-tab active" type="button" data-raw-tab="request">请求 JSON</button>
+          <button class="dialog-tab" type="button" data-raw-tab="response">响应 JSON</button>
+          <button class="button button-quiet dialog-copy" id="btnCopyRaw" type="button">复制当前</button>
+        </div>
+        <pre class="raw-pre active" id="rawRequest"></pre>
+        <pre class="raw-pre" id="rawResponse"></pre>
+      </div>
+    </dialog>
+
+    <div class="toast-stack" id="toasts" aria-live="polite"></div>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

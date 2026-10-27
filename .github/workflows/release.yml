@@ -1,0 +1,64 @@
+name: Release Windows EXE
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build Windows executable
+        run: npm run package:exe
+
+      - name: Generate SHA256 checksum
+        run: npm run checksum:exe
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepseek-search-console-windows-x64
+          path: |
+            release/DeepSeek-Search-Console.exe
+            release/DeepSeek-Search-Console.exe.sha256
+          if-no-files-found: error
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" \
+              "release/DeepSeek-Search-Console.exe" \
+              "release/DeepSeek-Search-Console.exe.sha256" \
+              --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              "release/DeepSeek-Search-Console.exe" \
+              "release/DeepSeek-Search-Console.exe.sha256" \
+              --title "DeepSeek Search Console $GITHUB_REF_NAME" \
+              --generate-notes
+          fi
